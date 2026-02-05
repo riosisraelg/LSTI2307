@@ -1,0 +1,26 @@
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+        \centering
+        \includegraphics[width=0.5\textwidth]{attachtments/diagramaClaseUML.png}
+        \caption{Diagrama de Clase UML de sistema Biblioteca}
+    \end{figure}
+
+    \section{Documentación del Diseño}
+
+
+
+    \section{Consideración de Requisitos No Funcionales}
+    Para garantizar la calidad y viabilidad del sistema, se han priorizado los siguientes atributos:
+    \begin{itemize}
+        \item \textbf{Usabilidad}: El diseño debe ser intuitivo para facilitar su operación por parte del usuario final.
+        \item \textbf{Robustez}: El sistema debe manejar adecuadamente los errores y excepciones para evitar interrupciones críticas.
+        \item \textbf{Eficiencia}: Optimización de los recursos computacionales para asegurar tiempos de respuesta ágiles.
+        \item \textbf{Escalabilidad}: Estructura modular que permita la incorporación de nuevas funcionalidades sin comprometer la estabilidad existente.
+    \end{itemize}
+
+    % Descomenta las siguientes líneas si necesitas bibliografía
+    % \newpage
+    % \printbibliography
+
+\end{document}
