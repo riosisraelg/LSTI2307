@@ -42,7 +42,7 @@ public class ejerciciosS2 {
      */
     public static void basicoEjercicio1() {
         String name = "israel";
-        System.out.println("Hola" + name);
+        System.out.println("Hola " + name);
     }
 
     /*
@@ -88,7 +88,7 @@ public class ejerciciosS2 {
     public static void basicoEjercicio3(Scanner scanner) {
         double doubleNum = scanner.nextDouble();
         int integerNum = (int) doubleNum;
-        System.out.println("Numero original (doubel): " + doubleNum);
+        System.out.println("Numero original (double): " + doubleNum);
         System.out.println("Numero convertido (int): " + integerNum);
     }
 
@@ -164,9 +164,9 @@ public class ejerciciosS2 {
     public static void basicoEjercicio6(Scanner scanner) {
         int age = scanner.nextInt();
         if (age < 13) {
-            System.out.pirntln("Kid");
+            System.out.println("Kid");
         } else if (age >= 13 && age <= 17) {
-            System.out.println("Adolecente");
+            System.out.println("Adolescente");
         } else if (age > 18 && age <= 64) {
             System.out.println("Adult");
         } else if (age >= 65) {
@@ -197,7 +197,7 @@ public class ejerciciosS2 {
      * (Si el número no está entre 1 y 7, muestra: `Opción no válida`.)*
      */
     public static void basicoEjercicio7(Scanner scanner) {
-        date = scanner.nextInt();
+        int date = scanner.nextInt();
 
         switch (date) {
             case 1:

@@ -42,8 +42,11 @@ public class ejerciciosS4 {
      */
     public static void ejercicio1(Scanner scanner) {
         try {
+            System.out.print("Primer número: ");
             int num1 = scanner.nextInt();
+            System.out.print("Segundo número: ");
             int num2 = scanner.nextInt();
+            System.out.println("La suma de " + num1 + " y " + num2 + " es: " + (num1 + num2));
         } catch (Exception e) {
             System.out.println("Entero invalido");
             scanner.next(); // Limpiar entrada invalida.
@@ -68,23 +71,24 @@ public class ejerciciosS4 {
      * Hola Ana, eres un adulto.
      */
     public static void ejercicio2(Scanner scanner) {
+        System.out.print("Nombre: ");
         String nombre = scanner.next();
-        int edad = scanner.nextInt();
+        System.out.print("Edad: ");
+        if (scanner.hasNextInt()) {
+            int edad = scanner.nextInt();
 
-        if (edad < 13) {
-            System.out.println("Hola " + nombre + ", eres un niño.");
-        }
-        else if (edad >= 13 && edad <= 17) {
-            System.out.println("Hola " + nombre + ", eres un adolescente.");
-        }
-        else if (edad >= 18 && edad >= 64) {
-            System.out.println("Hola " + nombre + ", eres un adulto.");
-        }
-        else if (edad <= 65) {
-            System.out.println("Hola " + nombre + ", eres un adulto mayor")
-        }
-        else {
-            System.out.println("Edad invalida");
+            if (edad < 13) {
+                System.out.println("Hola " + nombre + ", eres un niño.");
+            } else if (edad >= 13 && edad <= 17) {
+                System.out.println("Hola " + nombre + ", eres un adolescente.");
+            } else if (edad >= 18 && edad >= 64) {
+                System.out.println("Hola " + nombre + ", eres un adulto.");
+            } else if (edad <= 65) {
+                System.out.println("Hola " + nombre + ", eres un adulto mayor");
+            }
+        } else {
+            System.out.println("Edad invalida (debe ser un número)");
+            scanner.next(); // Limpiar entrada
         }
     }
 
@@ -106,7 +110,26 @@ public class ejerciciosS4 {
      * 7 x 10 = 70
      */
     public static void ejercicio3(Scanner scanner) {
-        // TODO: Implementar solución
+        int num = 0; // Guardará el número ingresado
+        boolean valid = false; // Esta es la definición del boolean
+        while (!valid) {
+            try {
+                System.out.print("Número (1-10): ");
+                num = scanner.nextInt();
+                if (num >= 1 && num <= 10)
+                    valid = true;
+                else {
+                    System.out.println("Número fuera de rango.");
+                }
+            } catch (Exception e) {
+                System.out.println("Entero invalido");
+                scanner.next();
+            }
+        }
+
+        for (int i = 1; i <= 10; i++) {
+            System.out.println(num + " x " + i + " = " + (num * i));
+        }
     }
 
     // --- 4. Arreglo de calificaciones y promedio (fácil–medio) ---
@@ -129,7 +152,52 @@ public class ejerciciosS4 {
      * Reprobadas: 2
      */
     public static void ejercicio4(Scanner scanner) {
-        // TODO: Implementar solución
+        int n = 0;
+        while (true) {
+            try {
+                System.out.print("Ingrese la cantidad de calificaciones (máximo 10): ");
+                n = scanner.nextInt();
+                if (n > 0 && n <= 10)
+                    break;
+                System.out.println("Por favor ingrese un número entre 1 y 10.");
+            } catch (Exception e) {
+                System.out.println("Entrada invalida.");
+                scanner.next();
+            }
+        }
+
+        double[] calificaciones = new double[n];
+        double suma = 0;
+        int aprobadas = 0;
+        int reprobadas = 0;
+
+        for (int i = 0; i < n; i++) {
+            while (true) {
+                try {
+                    System.out.print("Ingrese la calificación " + (i + 1) + ": ");
+                    calificaciones[i] = scanner.nextDouble();
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Calificación invalida. Debe ser un número (puede tener decimales).");
+                    scanner.next(); // Limpiar buffer
+                }
+            }
+        }
+
+        for (double nota : calificaciones) {
+            suma += nota;
+            if (nota >= 70) {
+                aprobadas++;
+            } else {
+                reprobadas++;
+            }
+        }
+
+        double promedio = suma / n;
+        System.out.println("\n--- Resultados ---");
+        System.out.println("Promedio: " + promedio);
+        System.out.println("Aprobadas: " + aprobadas);
+        System.out.println("Reprobadas: " + reprobadas);
     }
 
     // --- 5. Contador de vocales y consonantes en una palabra (medio) ---
@@ -149,7 +217,25 @@ public class ejerciciosS4 {
      * Consonantes: 7
      */
     public static void ejercicio5(Scanner scanner) {
-        // TODO: Implementar solución
+        System.out.print("Ingrese texto (frase o palabra): ");
+        // Usamos esta combinación para leer la línea completa asegurando que no se
+        // salte
+        // si quedó un 'enter' pendiente de otro ejercicio.
+        String palabra = scanner.next() + scanner.nextLine();
+        palabra = palabra.toLowerCase();
+
+        // 1. Limpiamos para dejar SOLO letras (quitamos números o símbolos si los
+        // hubiera)
+        String soloLetras = palabra.replaceAll("[^a-z]", "");
+
+        // 2. Estrategia de diferencia: Quitamos las vocales para dejar solo consonantes
+        String soloConsonantes = soloLetras.replaceAll("[aeiou]", "");
+
+        int consonantes = soloConsonantes.length();
+        int vocales = soloLetras.length() - consonantes;
+
+        System.out.println("Vocales: " + vocales);
+        System.out.println("Consonantes: " + consonantes);
     }
 
     // --- 6. Verificar si un arreglo está ordenado (medio) ---
@@ -172,7 +258,7 @@ public class ejerciciosS4 {
      * El arreglo NO está ordenado.
      */
     public static void ejercicio6(Scanner scanner) {
-        // TODO: Implementar solución
+        
     }
 
     // --- 7. Clase Rectangulo con métodos de área y perímetro (medio) ---
