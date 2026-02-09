@@ -12,9 +12,8 @@ public class Producto {
     private Double costo;
     private Double impuesto;
 
-    /**
-     * Constructor por defecto
-     */
+     // Constructor
+    
     public Producto() {
     }
 
