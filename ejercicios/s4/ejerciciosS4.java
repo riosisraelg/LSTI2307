@@ -7,21 +7,21 @@ public class ejerciciosS4 {
 
         // Descomenta los métodos para probarlos
 
-        // ejercicio1(scanner);
-        // ejercicio2(scanner);
-        // ejercicio3(scanner);
-        // ejercicio4(scanner);
-        // ejercicio5(scanner);
-        // ejercicio6(scanner);
-        // ejercicio7(scanner);
-        // ejercicio8(scanner);
-        // ejercicio9(scanner);
-        // ejercicio10(scanner);
-        // ejercicio11(scanner);
-        // ejercicio12(scanner);
-        // ejercicio13(scanner);
-        // ejercicio14(scanner);
-        // ejercicio15(scanner);
+        ejercicio1(scanner);
+        ejercicio2(scanner);
+        ejercicio3(scanner);
+        ejercicio4(scanner);
+        ejercicio5(scanner);
+        ejercicio6(scanner);
+        ejercicio7(scanner);
+        ejercicio8(scanner);
+        ejercicio9(scanner);
+        ejercicio10(scanner);
+        ejercicio11(scanner);
+        ejercicio12(scanner);
+        ejercicio13(scanner);
+        ejercicio14(scanner);
+        ejercicio15(scanner);
 
         scanner.close();
     }
@@ -81,10 +81,10 @@ public class ejerciciosS4 {
                 System.out.println("Hola " + nombre + ", eres un niño.");
             } else if (edad >= 13 && edad <= 17) {
                 System.out.println("Hola " + nombre + ", eres un adolescente.");
-            } else if (edad >= 18 && edad >= 64) {
+            } else if (edad >= 18 && edad <= 64) {
                 System.out.println("Hola " + nombre + ", eres un adulto.");
-            } else if (edad <= 65) {
-                System.out.println("Hola " + nombre + ", eres un adulto mayor");
+            } else if (edad >= 65) {
+                System.out.println("Hola " + nombre + ", eres un adulto mayor.");
             }
         } else {
             System.out.println("Edad invalida (debe ser un número)");
@@ -258,7 +258,47 @@ public class ejerciciosS4 {
      * El arreglo NO está ordenado.
      */
     public static void ejercicio6(Scanner scanner) {
-        
+        int n = 0;
+        while (true) {
+            try {
+                System.out.println("Ingrese la cantidad de numero (n): ");
+                n = scanner.nextInt();
+                if (n > 0)
+                    break;
+                System.out.println("El tamanao debe ser mayor a 0.");
+            } catch (Exception e) {
+                System.out.println("Entrada inválida.");
+                scanner.next(); // Limpiar el buffer
+            }
+        }
+        int[] arreglo = new int[n];
+        for (int i = 0; i < n; i++) {
+            while (true) {
+                try {
+                    System.out.print("Ingrese el número " + (i + 1) + ": ");
+                    arreglo[i] = scanner.nextInt();
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Entero invalido.");
+                    scanner.next();
+                }
+            }
+        }
+
+        if (validarOrdenamientoArreglo(arreglo)) {
+            System.out.println("El arreglo está ordenado.");
+        } else {
+            System.out.println("El arreglo no está ordenado.");
+        }
+    }
+
+    public static boolean validarOrdenamientoArreglo(int[] arreglo) {
+        for (int i = 1; i < arreglo.length; i++) {
+            if (arreglo[i] < arreglo[i - 1]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // --- 7. Clase Rectangulo con métodos de área y perímetro (medio) ---
@@ -284,7 +324,62 @@ public class ejerciciosS4 {
      * Perímetro: 16.0
      */
     public static void ejercicio7(Scanner scanner) {
-        // TODO: Implementar solución
+        double ancho = 0, alto = 0;
+        while (true) {
+            try {
+                System.out.print("Ingrese el ancho: ");
+                ancho = scanner.nextDouble();
+                System.out.print("Ingrese el alto: ");
+                alto = scanner.nextDouble();
+                break;
+            } catch (Exception e) {
+                System.out.println("Entrada inválida. Debe ser un número.");
+                scanner.next(); // Limpiar el buffer
+            }
+        }
+
+        Rectangulo rect = new Rectangulo(ancho, alto);
+        System.out.println("Área: " + rect.calcularArea());
+        System.out.println("Perímetro: " + rect.calcularPerimetro());
+    }
+
+    public static class Rectangulo {
+        // atributos
+        private double ancho = 0;
+        private double alto = 0;
+
+        // constructor
+        public Rectangulo(double ancho, double alto) {
+            this.ancho = ancho;
+            this.alto = alto;
+        }
+
+        // getters
+        public double getAncho() {
+            return ancho;
+        }
+
+        public double getAlto() {
+            return alto;
+        }
+
+        // setters
+        public void setAncho(double ancho) {
+            this.ancho = ancho;
+        }
+
+        public void setAlto(double alto) {
+            this.alto = alto;
+        }
+
+        // métodos
+        public double calcularArea() {
+            return ancho * alto;
+        }
+
+        public double calcularPerimetro() {
+            return 2 * (ancho + alto);
+        }
     }
 
     // --- 8. Buscar un número en un arreglo (medio) ---
@@ -305,7 +400,63 @@ public class ejerciciosS4 {
      * El número 7 se encontró en el índice: 1
      */
     public static void ejercicio8(Scanner scanner) {
-        // TODO: Implementar solución
+        int n = 0;
+        // 1. Pedir tamaño del arreglo
+        while (true) {
+            try {
+                System.out.print("Ingrese la cantidad de números (n): ");
+                n = scanner.nextInt();
+                if (n > 0)
+                    break;
+                System.out.println("Debe ser mayor a 0.");
+            } catch (Exception e) {
+                System.out.println("Entrada inválida.");
+                scanner.next();
+            }
+        }
+
+        // 2. Crear el arreglo AHORA que sabemos cuánto vale n
+        int[] arreglo = new int[n];
+
+        // 3. Llenar el arreglo
+        for (int i = 0; i < n; i++) {
+            while (true) {
+                try {
+                    System.out.print("Ingrese el número " + (i + 1) + ": ");
+                    arreglo[i] = scanner.nextInt();
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Número inválido.");
+                    scanner.next();
+                }
+            }
+        }
+
+        // 4. Pedir número a buscar
+        System.out.print("Ingrese el número a buscar (x): ");
+        // Asumimos que aquí ingresa un entero válido por simplicidad, o puedes agregar
+        // try-catch
+        int x = scanner.nextInt();
+
+        // 5. Llamar al método de búsqueda
+        int indice = buscarElemento(arreglo, x);
+
+        if (indice != -1) {
+            System.out.println("El número " + x + " se encontró en el índice: " + indice);
+        } else {
+            System.out.println("El número " + x + " no existe en el arreglo.");
+        }
+    }
+
+    public static int buscarElemento(int[] arr, int x) {
+        for (int i = 0; i < arr.length; i++) {
+            // Si encontramos el número, retornamos la posición (i) inmediatamente
+            if (arr[i] == x) {
+                return i;
+            }
+        }
+        // Si termina el ciclo y no retornó nada, es que no estaba
+        return -1;
     }
 
     // --- 9. Sistema simple de biblioteca con clase Libro (medio–alto) ---
@@ -365,7 +516,72 @@ public class ejerciciosS4 {
      * División: 8 / 2 = 4
      */
     public static void ejercicio10(Scanner scanner) {
-        // TODO: Implementar solución
+        int opcion = 0;
+        do {
+            System.out.println("\n--- Menú Calculadora ---");
+            System.out.println("1. Sumar");
+            System.out.println("2. Restar");
+            System.out.println("3. Multiplicar");
+            System.out.println("4. Dividir");
+            System.out.println("5. Salir");
+            System.out.print("Seleccione una opción: ");
+
+            while (true) {
+                try {
+                    opcion = scanner.nextInt();
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Opción inválida. Debe ser un número.");
+                    scanner.next(); // Limpiar buffer
+                    System.out.print("Seleccione una opción: ");
+                }
+            }
+
+            if (opcion >= 1 && opcion <= 4) {
+                double n1 = 0, n2 = 0;
+                // Pedir números con validación básica de tipo
+                while (true) {
+                    try {
+                        System.out.print("Ingrese el primer número: ");
+                        n1 = scanner.nextDouble();
+                        System.out.print("Ingrese el segundo número: ");
+                        n2 = scanner.nextDouble();
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("Entrada inválida. Deben ser números.");
+                        scanner.next();
+                    }
+                }
+
+                switch (opcion) {
+                    case 1:
+                        System.out.println("Suma: " + (n1 + n2));
+                        break;
+                    case 2:
+                        System.out.println("Resta: " + (n1 - n2));
+                        break;
+                    case 3:
+                        System.out.println("Multiplicación: " + (n1 * n2));
+                        break;
+                    case 4:
+                        while (n2 == 0) {
+                            System.out.println("Error: no se puede dividir entre cero.");
+                            System.out.print("Ingresa otro divisor válido: ");
+                            try {
+                                n2 = scanner.nextDouble();
+                            } catch (Exception e) {
+                                scanner.next();
+                            }
+                        }
+                        System.out.println("División: " + (n1 / n2));
+                        break;
+                }
+            } else if (opcion != 5) {
+                System.out.println("Opción no válida.");
+            }
+
+        } while (opcion != 5);
+        System.out.println("Saliendo de la calculadora...");
     }
 
     // --- 11. Arreglo de productos con precio final (medio–alto) ---
@@ -394,7 +610,106 @@ public class ejerciciosS4 {
      * Producto: Teclado| Costo: 200.0 | Impuesto: 16.0 | Precio final: 278.4
      */
     public static void ejercicio11(Scanner scanner) {
-        // TODO: Implementar solución
+        int n = 0;
+        while (true) {
+            try {
+                System.out.print("Ingrese la cantidad de productos (máximo 5): ");
+                n = scanner.nextInt();
+                if (n > 0 && n <= 5)
+                    break;
+                System.out.println("Debe ser entre 1 y 5.");
+            } catch (Exception e) {
+                System.out.println("Entrada inválida.");
+                scanner.next();
+            }
+        }
+
+        Producto[] productos = new Producto[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("\n--- Producto " + (i + 1) + " ---");
+            System.out.print("Nombre: ");
+            String nombre = scanner.next();
+
+            double costo = 0, impuesto = 0;
+            while (true) {
+                try {
+                    System.out.print("Costo: ");
+                    costo = scanner.nextDouble();
+                    System.out.print("Impuesto (%): ");
+                    impuesto = scanner.nextDouble();
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Error al leer números. Intente de nuevo.");
+                    scanner.next();
+                }
+            }
+            productos[i] = new Producto(nombre, costo, impuesto);
+        }
+
+        double utilidad = 0;
+        while (true) {
+            try {
+                System.out.print("\nIngrese el porcentaje de utilidad general: ");
+                utilidad = scanner.nextDouble();
+                break;
+            } catch (Exception e) {
+                System.out.println("Entrada inválida.");
+                scanner.next();
+            }
+        }
+
+        System.out.println("\n--- Tabla de Productos ---");
+        for (Producto p : productos) {
+            // Usamos printf para formatear a 2 decimales y que se vea mejor
+            System.out.printf("Producto: %s | Costo: %.2f | Impuesto: %.2f%% | Precio Final: %.2f%n",
+                    p.getNombre(), p.getCosto(), p.getImpuesto(), p.calcularPrecioFinal(utilidad));
+        }
+    }
+
+    public static class Producto {
+        private String nombre;
+        private double costo;
+        private double impuesto;
+
+        public Producto(String nombre, double costo, double impuesto) {
+            this.nombre = nombre;
+            this.costo = costo;
+            this.impuesto = impuesto;
+        }
+
+        // Getters y Setters
+        public String getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public double getCosto() {
+            return costo;
+        }
+
+        public void setCosto(double costo) {
+            this.costo = costo;
+        }
+
+        public double getImpuesto() {
+            return impuesto;
+        }
+
+        public void setImpuesto(double impuesto) {
+            this.impuesto = impuesto;
+        }
+
+        // Métodos
+        public double calcularPrecioFinal(double utilidad) {
+            double ganancia = this.costo * (utilidad / 100);
+            double precioBase = this.costo + ganancia;
+            double montoImpuesto = precioBase * (this.impuesto / 100);
+            return precioBase + montoImpuesto;
+        }
     }
 
     // --- 12. Verificar si una frase es palíndromo (medio–alto) ---
@@ -414,7 +729,25 @@ public class ejerciciosS4 {
      * La frase es un palíndromo.
      */
     public static void ejercicio12(Scanner scanner) {
-        // TODO: Implementar solución
+        String frase, fraseInvertida = "";
+
+        scanner.nextLine();
+        System.out.print("Ingrese la frase: ");
+        frase = scanner.nextLine();
+
+        String fraseLimpia = frase.replaceAll("\\s+", "").toLowerCase();
+        int i = fraseLimpia.length() - 1;
+
+        while (i >= 0) {
+            fraseInvertida += fraseLimpia.charAt(i);
+            i--;
+        }
+
+        if (fraseLimpia.equals(fraseInvertida)) {
+            System.out.println("La frase es un palíndromo.");
+        } else {
+            System.out.println("La frase no es un palíndromo.");
+        }
     }
 
     // --- 13. Matriz de notas (medio–alto) ---
@@ -439,32 +772,97 @@ public class ejerciciosS4 {
      * Promedio materia 2: 75.0
      */
     public static void ejercicio13(Scanner scanner) {
-        // TODO: Implementar solución
+        int f = 0, c = 0;
+        double[][] notas;
+        while (true) {
+            try {
+                System.out.print("Ingrese número de estudiantes (f): ");
+                f = scanner.nextInt();
+                System.out.print("Ingrese número de materias (c): ");
+                c = scanner.nextInt();
+                if (f > 0 && c > 0)
+                    break;
+                System.out.println("Las dimensiones deben ser mayores a 0.");
+            } catch (Exception e) {
+                System.out.println("Entrada inválida.");
+                scanner.next();
+            }
+        }
+
+        notas = new double[f][c];
+
+        for (int i = 0; i < f; i++) {
+            for (int j = 0; j < c; j++) {
+                System.out.printf("Nota estudiante %d, materia %d: ", i, j);
+                notas[i][j] = scanner.nextDouble();
+            }
+        }
+
+        for (int i = 0; i < f; i++) {
+            double suma = 0;
+            for (int j = 0; j < c; j++) {
+                suma += notas[i][j];
+            }
+            System.out.println("Promedio estudiante " + i + ": " + (suma / c));
+        }
+
+        for (int j = 0; j < c; j++) {
+            double suma = 0;
+            for (int i = 0; i < f; i++) {
+                suma += notas[i][j];
+            }
+            System.out.println("Promedio materia " + j + ": " + (suma / f));
+        }
     }
 
-    // --- 14. Sistema simple de login con intentos limitados (medio–alto) ---
+    // --- 14. Sistema simple de login con intentoss limitados (medio–alto) ---
     /*
      * Enunciado:
      * Define, en el código, un usuario y contraseña correctos (por ejemplo, "admin"
      * y "1234").
      * Pide al usuario que ingrese usuario y contraseña, y valida con equals.
-     * Permite máximo 3 intentos.
+     * Permite máximo 3 intentoss.
      * Si los datos son correctos, muestra "Acceso concedido" y termina.
-     * Si se alcanzan 3 intentos fallidos, muestra "Cuenta bloqueada" y termina.
-     * Usa un ciclo while o for para contar intentos.
+     * Si se alcanzan 3 intentoss fallidos, muestra "Cuenta bloqueada" y termina.
+     * Usa un ciclo while o for para contar intentoss.
      * 
      * Entrada (ejemplo):
-     * - Intento 1: user admin, pass 1111
-     * - Intento 2: user Admin, pass 1234
-     * - Intento 3: user admin, pass 1234
+     * - intentos 1: user admin, pass 1111
+     * - intentos 2: user Admin, pass 1234
+     * - intentos 3: user admin, pass 1234
      * 
      * Salida esperada:
-     * Datos incorrectos. Te quedan 2 intentos.
-     * Datos incorrectos. Te quedan 1 intentos.
+     * Datos incorrectos. Te quedan 2 intentoss.
+     * Datos incorrectos. Te quedan 1 intentoss.
      * Acceso concedido.
      */
     public static void ejercicio14(Scanner scanner) {
-        // TODO: Implementar solución
+        String trueUser = "", truePass = "", user = "root", pass = "root";
+        int intentos = 3;
+        boolean acceso = false;
+        for (int i = 1; i <= 3; i++) {
+            System.out.println("intentos " + i);
+            System.out.print("Ingrese usuario: ");
+            String usuario = scanner.next();
+            System.out.print("Ingrese contraseña: ");
+            String password = scanner.next();
+
+            // validar
+            if (usuario.equals(user) && password.equals(pass)) {
+                System.out.println("Acceso concedido.");
+                acceso = true;
+                break;
+            } else {
+                intentos--;
+                if (intentos > 0) {
+                    System.out.println("Datos incorrectos. Te quedan " + intentos + " intentoss.");
+                }
+            }
+        }
+        if (!acceso) {
+            System.out.println("Cuenta bloqueada.");
+        }
+
     }
 
     // --- 15. Gestión de inventario con clase y menú (difícil) ---
@@ -494,7 +892,7 @@ public class ejerciciosS4 {
      * existencia 100
      * - Opción 2: mostrar artículos
      * - Opción 3: vender código A1, cantidad 30
-     * - Opción 3: vender código A1, cantidad 100 (debe decir que no hay suficiente)
+     * - Opción 4: vender código A1, cantidad 100 (debe decir que no hay suficiente)
      * - Opción 5: salir
      * 
      * Salida esperada (resumen):
@@ -504,6 +902,229 @@ public class ejerciciosS4 {
      * No hay suficiente existencia para vender esa cantidad.
      */
     public static void ejercicio15(Scanner scanner) {
-        // TODO: Implementar solución
+        Articulo[] articulos = new Articulo[5];
+        int opcion = 0;
+
+        do {
+            System.out.println("\n--- Sistema de Inventario ---");
+            System.out.println("1. Agregar artículo");
+            System.out.println("2. Mostrar artículos");
+            System.out.println("3. Vender artículo");
+            System.out.println("4. Reabastecer");
+            System.out.println("5. Salir");
+            System.out.print("Seleccione una opción: ");
+
+            try {
+                opcion = scanner.nextInt();
+            } catch (Exception e) {
+                System.out.println("Error: Ingrese un número válido.");
+                scanner.next();
+                opcion = 0;
+                continue;
+            }
+
+            switch (opcion) {
+                case 1:
+                    boolean espacioEncontrado = false;
+                    for (int i = 0; i < articulos.length; i++) {
+                        if (articulos[i] == null) {
+                            System.out.println("\n--- Captura de Nuevo Artículo ---");
+                            System.out.print("Código: ");
+                            String cod = scanner.next();
+                            System.out.print("Descripción: ");
+                            String desc = scanner.next() + scanner.nextLine();
+
+                            double prec = 0;
+                            while (true) {
+                                try {
+                                    System.out.print("Precio: ");
+                                    prec = scanner.nextDouble();
+                                    if (prec > 0)
+                                        break;
+                                    System.out.println("El precio debe ser mayor a 0.");
+                                } catch (Exception e) {
+                                    System.out.println("Error: Ingrese un precio válido.");
+                                    scanner.next();
+                                }
+                            }
+
+                            int exist = 0;
+                            while (true) {
+                                try {
+                                    System.out.print("Existencia inicial: ");
+                                    exist = scanner.nextInt();
+                                    if (exist >= 0)
+                                        break;
+                                    System.out.println("La existencia no puede ser negativa.");
+                                } catch (Exception e) {
+                                    System.out.println("Error: Ingrese un número entero válido.");
+                                    scanner.next();
+                                }
+                            }
+
+                            articulos[i] = new Articulo(cod, desc, prec, exist);
+                            System.out.println("¡Artículo agregado exitosamente!");
+                            espacioEncontrado = true;
+                            break;
+                        }
+                    }
+                    if (!espacioEncontrado) {
+                        System.out.println("Error: Inventario lleno (máximo 5 artículos).");
+                    }
+                    break;
+                case 2:
+                    System.out.println("\n--- Lista de Artículos ---");
+                    for (Articulo art : articulos) {
+                        if (art != null) {
+                            art.mostrar();
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.println("\n--- Venta de Artículos ---");
+                    System.out.print("Ingrese el código del artículo: ");
+                    String codVenta = scanner.next();
+
+                    int cantVenta = 0;
+                    while (true) {
+                        try {
+                            System.out.print("Cantidad a vender: ");
+                            cantVenta = scanner.nextInt();
+                            if (cantVenta > 0)
+                                break;
+                            System.out.println("La cantidad debe ser mayor a 0.");
+                        } catch (Exception e) {
+                            System.out.println("Error: Ingrese un número entero.");
+                            scanner.next();
+                        }
+                    }
+
+                    boolean encontradoVenta = false;
+                    for (Articulo art : articulos) {
+                        if (art != null && art.getCodigo().equals(codVenta)) {
+                            art.actualizarExistencia(-cantVenta);
+                            encontradoVenta = true;
+                            break;
+                        }
+                    }
+                    if (!encontradoVenta) {
+                        System.out.println("Artículo no encontrado.");
+                    }
+                    break;
+                case 4:
+                    System.out.println("\n--- Reabastecer Artículo ---");
+                    System.out.print("Ingrese el código del artículo: ");
+                    String codRe = scanner.next();
+
+                    int cantRe = 0;
+                    while (true) {
+                        try {
+                            System.out.print("Cantidad a reabastecer: ");
+                            cantRe = scanner.nextInt();
+                            if (cantRe > 0)
+                                break;
+                            System.out.println("La cantidad debe ser mayor a 0.");
+                        } catch (Exception e) {
+                            System.out.println("Error: Ingrese un número entero.");
+                            scanner.next();
+                        }
+                    }
+
+                    boolean encontradoRe = false;
+                    for (Articulo art : articulos) {
+                        if (art != null && art.getCodigo().equals(codRe)) {
+                            art.actualizarExistencia(cantRe);
+                            encontradoRe = true;
+                            break;
+                        }
+                    }
+                    if (!encontradoRe) {
+                        System.out.println("Artículo no encontrado.");
+                    }
+                    break;
+                case 5:
+                    System.out.println("Saliendo del sistema de inventario...");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intente de nuevo.");
+                    break;
+            }
+        } while (opcion != 5);
+    }
+
+    public static class Articulo {
+        private String codigo;
+        private String descripcion;
+        private double precio;
+        private int existencia;
+
+        public Articulo(String codigo, String descripcion, double precio, int existencia) {
+            this.codigo = codigo;
+            this.descripcion = descripcion;
+            this.precio = precio;
+            this.existencia = existencia;
+        }
+
+        public String getCodigo() {
+            return codigo;
+        }
+
+        public void setCodigo(String codigo) {
+            this.codigo = codigo;
+        }
+
+        public String getDescripcion() {
+
+            return descripcion;
+
+        }
+
+        public void setDescripcion(String descripcion) {
+
+            this.descripcion = descripcion;
+
+        }
+
+        public double getPrecio() {
+
+            return precio;
+
+        }
+
+        public void setPrecio(double precio) {
+
+            this.precio = precio;
+
+        }
+
+        public int getExistencia() {
+
+            return existencia;
+
+        }
+
+        public void setExistencia(int existencia) {
+
+            this.existencia = existencia;
+
+        }
+
+        public void mostrar() {
+            System.out.printf("Código: %s | Descripción: %s | Precio: %.2f | Existencia: %d%n",
+                    this.codigo, this.descripcion, this.precio, this.existencia);
+        }
+
+        public void actualizarExistencia(int cantidad) {
+            if (this.existencia + cantidad < 0) {
+                System.out.println("No hay suficiente existencia para vender esa cantidad.");
+            } else {
+                this.existencia += cantidad;
+                if (cantidad < 0) {
+                    System.out.println("Venta realizada. Nueva existencia: " + this.existencia);
+                } else {
+                    System.out.println("Reabastecimiento realizado. Nueva existencia: " + this.existencia);
+                }
+            }
+        }
     }
 }
