@@ -1,9 +1,6 @@
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import javax.swing.DefaultBoundedRangeModel;
 
 /**
  * Semana 5: Programación Orientada a Objetos Intermedia
@@ -14,11 +11,30 @@ import javax.swing.DefaultBoundedRangeModel;
  */
 public class ejerciciosS5 {
 
+    /**
+     * Limpia la consola según el sistema operativo.
+     */
+    public static void limpiarPantalla() {
+        try {
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("win")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        } catch (Exception e) {
+            // Si falla, al menos imprimimos varias líneas vacías
+            for (int i = 0; i < 50; i++)
+                System.out.println();
+        }
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int opcion;
 
         do {
+            limpiarPantalla();
             System.out.println("\n==========================================");
             System.out.println("   EJERCICIOS SEMANA 5 - POO INTERMEDIA  ");
             System.out.println("==========================================");
@@ -91,7 +107,8 @@ public class ejerciciosS5 {
      * 5. Crea un programa donde se demuestre la creación de objetos.
      */
     public static void ejercicio1(Scanner scanner) {
-        System.out.println("\n--- EJERCICIO 1: DEMOSTRACIÓN CRUD VETERINARIA ---");
+        limpiarPantalla();
+        System.out.println("\n--- EJERCICIO 1: FLUJO CRUD VETERINARIA ---");
 
         // 1. CREATE (Creación de objetos)
         System.out.println("\n[1. CREATE] Creando registros iniciales...");
@@ -135,7 +152,7 @@ public class ejerciciosS5 {
             System.out.println("La consulta ha sido eliminada exitosamente del sistema.");
         }
 
-        System.out.println("\n--- FIN DEMOSTRACIÓN EJERCICIO 1 ---");
+        System.out.println("\n--- FIN FLUJO VETERINARIA ---");
         System.out.println("Presione Enter para continuar...");
         scanner.nextLine();
     }
@@ -154,21 +171,18 @@ public class ejerciciosS5 {
             this.telefono = "0000000000";
         }
 
-        // TODO: Constructor con parámetros
         public Dueño(String nombre, String rfc, String telefono) {
             this.nombre = nombre;
             this.rfc = rfc;
             this.telefono = telefono;
         }
 
-        // TODO: Constructor de copia
         public Dueño(Dueño a) {
             this.nombre = a.nombre;
             this.rfc = a.rfc;
             this.telefono = a.telefono;
         }
 
-        // TODO: Getters y Setters
         // Getters
         public String getNombre() {
             return this.nombre;
@@ -543,54 +557,147 @@ public class ejerciciosS5 {
      * - Crear el menú interactivo
      */
     public static void ejercicio2(Scanner scanner) {
-        System.out.println("\n--- EJERCICIO 2: DEMOSTRACIÓN CRUD GIMNASIO ---");
+        // Listas para almacenar los objetos
+        List<Miembro> miembros = new ArrayList<>();
+        List<Ejercicio> ejercicios = new ArrayList<>();
+        List<PlanEntrenamiento> planes = new ArrayList<>();
+        List<Entrenador> entrenadores = new ArrayList<>();
 
-        // 1. CREATE (Creación de objetos)
-        System.out.println("\n[1. CREATE] Registrando nuevo miembro y ejercicios...");
-        Miembro miembro1 = new Miembro("Ana Gómez", 28, "básica");
-        Ejercicio ej1 = new Ejercicio("Sentadillas", 4, 12, 10);
-        Ejercicio ej2 = new Ejercicio("Press Militar", 3, 10, 8);
+        int opcion;
+        do {
+            limpiarPantalla();
+            mostrarMenu();
+            while (!scanner.hasNextInt()) {
+                System.out.println("Error: Por favor, ingrese un número entero válido.");
+                scanner.next();
+            }
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Limpiar buffer
 
-        PlanEntrenamiento plan1 = new PlanEntrenamiento("Rutina Alpha", "Tonificación", miembro1);
-        plan1.agregarEjercicio(ej1);
-        plan1.agregarEjercicio(ej2);
-        miembro1.setPlan(plan1);
+            switch (opcion) {
+                case 1:
+                    System.out.println("\n--- Registrar Nuevo Miembro ---");
+                    System.out.print("Nombre: ");
+                    String nombre = scanner.nextLine();
+                    System.out.print("Edad: ");
+                    int edad = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Membresía (básica/premium): ");
+                    String membresia = scanner.nextLine();
+                    try {
+                        Miembro nuevoMiembro = new Miembro(nombre, edad, membresia);
+                        miembros.add(nuevoMiembro);
+                        System.out.println("Miembro registrado exitosamente.");
+                        System.out.println("\nPresione Enter para continuar...");
+                        scanner.nextLine();
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error al crear miembro: " + e.getMessage());
+                        System.out.println("\nPresione Enter para continuar...");
+                        scanner.nextLine();
+                    }
+                    break;
+                case 2:
+                    System.out.println("\n--- Registrar Nuevo Ejercicio ---");
+                    System.out.print("Nombre del ejercicio: ");
+                    String nomEj = scanner.nextLine();
+                    System.out.print("Series: ");
+                    int series = scanner.nextInt();
+                    System.out.print("Repeticiones: ");
+                    int reps = scanner.nextInt();
+                    System.out.print("Duración (minutos): ");
+                    int duracion = scanner.nextInt();
+                    scanner.nextLine();
+                    try {
+                        Ejercicio nuevoEj = new Ejercicio(nomEj, series, reps, duracion);
+                        ejercicios.add(nuevoEj);
+                        System.out.println("Ejercicio registrado exitosamente.");
+                        System.out.println("\nPresione Enter para continuar...");
+                        scanner.nextLine();
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
+                        System.out.println("\nPresione Enter para continuar...");
+                        scanner.nextLine();
+                    }
+                    break;
+                case 3:
+                    System.out.println("\n--- Crear Plan de Entrenamiento ---");
+                    if (miembros.isEmpty()) {
+                        System.out.println("Primero debe registrar al menos un miembro.");
+                        break;
+                    }
+                    System.out.println("Seleccione un miembro para asignar el plan:");
+                    for (int i = 0; i < miembros.size(); i++) {
+                        System.out.println((i + 1) + ". " + miembros.get(i).getNombre());
+                    }
+                    int idxMiembro = scanner.nextInt() - 1;
+                    scanner.nextLine();
 
-        // 2. READ (Lectura inicial)
-        System.out.println("\n[2. READ] Datos del sistema de gimnasio:");
-        miembro1.mostrarInfo();
-        plan1.mostrarInfoPlan();
-        ej1.getDuracionMinutos();
+                    if (idxMiembro >= 0 && idxMiembro < miembros.size()) {
+                        System.out.print("Nombre del plan: ");
+                        String nomPlan = scanner.nextLine();
+                        System.out.print("Objetivo: ");
+                        String obj = scanner.nextLine();
 
-        // 3. UPDATE (Actualización)
-        System.out.println("\n[3. UPDATE] Modificando membresía y plan...");
-        System.out.println("- Subiendo a membresía PREMIUM...");
-        miembro1.setTipoMembresia("premium");
+                        PlanEntrenamiento nuevoPlan = new PlanEntrenamiento(nomPlan, obj, miembros.get(idxMiembro));
 
-        System.out.println("- Agregando un nuevo ejercicio al plan...");
-        Ejercicio ej3 = new Ejercicio("Plancha", 3, 1, 5); // 1 repetición de larga duración
-        plan1.agregarEjercicio(ej3);
+                        System.out.println("Seleccione hasta 5 ejercicios para el plan (ingrese 0 para terminar):");
+                        for (int i = 0; i < ejercicios.size(); i++) {
+                            System.out.println((i + 1) + ". " + ejercicios.get(i).getNombre());
+                        }
 
-        System.out.println("- Corrigiendo nombre del plan...");
-        plan1.setNombrePlan("Rutina Alpha Pro");
+                        while (nuevoPlan.getEjercicios().size() < 5) {
+                            System.out.print("Seleccione ejercicio #" + (nuevoPlan.getEjercicios().size() + 1) + ": ");
+                            int idxEj = scanner.nextInt() - 1;
+                            if (idxEj == -1)
+                                break;
+                            if (idxEj >= 0 && idxEj < ejercicios.size()) {
+                                nuevoPlan.agregarEjercicio(ejercicios.get(idxEj));
+                            } else {
+                                System.out.println("Selección inválida.");
+                            }
+                        }
+                        scanner.nextLine();
+                        planes.add(nuevoPlan);
+                        miembros.get(idxMiembro).setPlan(nuevoPlan);
+                        System.out.println("Plan creado y asignado exitosamente.");
+                        System.out.println("\nPresione Enter para continuar...");
+                        scanner.nextLine();
+                    } else {
+                        System.out.println("Miembro no válido.");
+                        System.out.println("\nPresione Enter para continuar...");
+                        scanner.nextLine();
+                    }
+                    break;
+                case 4:
+                    System.out.println("\n--- Registrar Entrenador ---");
+                    System.out.print("Nombre: ");
+                    String nomEnt = scanner.nextLine();
+                    System.out.print("Especialidad: ");
+                    String esp = scanner.nextLine();
+                    System.out.print("Certificación: ");
+                    String cert = scanner.nextLine();
+                    entrenadores.add(new Entrenador(nomEnt, esp, cert));
+                    System.out.println("Entrenador registrado exitosamente.");
+                    System.out.println("\nPresione Enter para continuar...");
+                    scanner.nextLine();
+                    break;
+                case 5:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+            }
+        } while (opcion != 5);
+    }
 
-        System.out.println("\nVerificando cambios (READ post-update):");
-        miembro1.mostrarInfo();
-        plan1.mostrarInfoPlan();
-
-        // 4. DELETE (Eliminación)
-        System.out.println("\n[4. DELETE] Removiendo el plan del miembro...");
-        miembro1.setPlan(null);
-
-        System.out.println("\nEstado final del miembro:");
-        miembro1.mostrarInfo();
-        if (!miembro1.tienePlanActivo()) {
-            System.out.println("El miembro ya no cuenta con un plan de entrenamiento asociado.");
-        }
-
-        System.out.println("\n--- FIN DEMOSTRACIÓN EJERCICIO 2 ---");
-        System.out.println("Presione Enter para volver al menú principal...");
-        scanner.nextLine();
+    public static void mostrarMenu() {
+        System.out.println("\n=== MENÚ GIMNASIO ===");
+        System.out.println("1. Crear miembro");
+        System.out.println("2. Crear ejercicio");
+        System.out.println("3. Crear plan de entrenamiento");
+        System.out.println("4. Crear entrenador");
+        System.out.println("5. Salir");
+        System.out.print("Elige una opción: ");
     }
 
     // --- Clases para Ejercicio 2 (Esqueleto del MD) ---
