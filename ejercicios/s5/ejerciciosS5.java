@@ -91,15 +91,53 @@ public class ejerciciosS5 {
      * 5. Crea un programa donde se demuestre la creación de objetos.
      */
     public static void ejercicio1(Scanner scanner) {
-        System.out.println("\n--- EJERCICIO 1: SISTEMA VETERINARIA ---");
-        // TODO: Implementar demostración de creación de objetos y relaciones
-        // Ejemplo de flujo:
-        // Dueño d = new Dueño(...);
-        // Mascota m = new Mascota(...);
-        // Veterinario v = new Veterinario(...);
-        // Servicio s = new Servicio(...);
-        // Consulta c = new Consulta(m, v, s, "2024-01-15");
-        // c.mostrarConsulta();
+        System.out.println("\n--- EJERCICIO 1: DEMOSTRACIÓN CRUD VETERINARIA ---");
+
+        // 1. CREATE (Creación de objetos)
+        System.out.println("\n[1. CREATE] Creando registros iniciales...");
+        Dueño d1 = new Dueño("Juan Pérez", "PERJ800101ABC", "555-123-4567");
+        Mascota m1 = new Mascota("Max", "Perro", 3, 15.5, d1);
+        Veterinario v1 = new Veterinario("Dra. García", "VET-001", "Cirugía", 8);
+        Servicio s1 = new Servicio("Vacunación", 450.0, 20);
+
+        // 2. READ (Lectura/Visualización inicial)
+        System.out.println("\n[2. READ] Consultando datos registrados:");
+        m1.mostrarInfo();
+        v1.mostrarInfo();
+
+        // Creamos una consulta usando los objetos anteriores
+        Consulta c1 = new Consulta("2024-02-11", m1, v1, s1);
+        c1.mostrarConsulta();
+
+        // 3. UPDATE (Actualización de datos)
+        System.out.println("\n[3. UPDATE] Modificando registros existentes...");
+        System.out.println("- Actualizando peso de Max a 16.2 kg...");
+        m1.setPeso(16.2);
+
+        System.out.println("- Cambiando teléfono del dueño...");
+        d1.setTelefono("555-999-8888");
+
+        System.out.println("- Actualizando precio del servicio de vacunación a $500...");
+        s1.setPrecio(500.0);
+        // Nota: El costo de la consulta debe actualizarse si el servicio cambia
+        c1.setServicio(s1);
+
+        System.out.println("\nVerificando cambios (READ post-update):");
+        m1.mostrarInfo();
+        c1.mostrarConsulta();
+
+        // 4. DELETE (Borrado/Eliminación lógica o de referencia)
+        System.out.println("\n[4. DELETE] Eliminando referencias...");
+        System.out.println("- Cancelando la consulta (eliminando objeto)...");
+        c1 = null;
+
+        if (c1 == null) {
+            System.out.println("La consulta ha sido eliminada exitosamente del sistema.");
+        }
+
+        System.out.println("\n--- FIN DEMOSTRACIÓN EJERCICIO 1 ---");
+        System.out.println("Presione Enter para continuar...");
+        scanner.nextLine();
     }
 
     // --- Clases para Ejercicio 1 ---
@@ -109,8 +147,11 @@ public class ejerciciosS5 {
         private String rfc;
         private String telefono;
 
-        // TODO: Constructor por defecto
+        // Constructor por defecto con valores iniciales
         public Dueño() {
+            this.nombre = "Sin nombre";
+            this.rfc = "N/A";
+            this.telefono = "0000000000";
         }
 
         // TODO: Constructor con parámetros
@@ -121,294 +162,759 @@ public class ejerciciosS5 {
         }
 
         // TODO: Constructor de copia
-        public Dueño (m) {
-            this.m = nombre;
-            this.m = rfc;
-            this.m = telefono;
+        public Dueño(Dueño a) {
+            this.nombre = a.nombre;
+            this.rfc = a.rfc;
+            this.telefono = a.telefono;
         }
+
         // TODO: Getters y Setters
+        // Getters
+        public String getNombre() {
+            return this.nombre;
+        }
+
+        public String getRfc() {
+            return this.rfc;
+        }
+
+        public String getTelefono() {
+            return this.telefono;
+        }
+
+        // Setters
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public void setRfc(String rfc) {
+            this.rfc = rfc;
+        }
+
+        public void setTelefono(String telefono) {
+            this.telefono = telefono;
+        }
+
+        // Método de visualización
+        public void mostrarInfo() {
+            System.out.println("--- Detalle del Dueño ---");
+            System.out.println("Nombre:   " + (nombre != null ? nombre : "N/A"));
+            System.out.println("RFC:      " + (rfc != null ? rfc : "N/A"));
+            System.out.println("Teléfono: " + (telefono != null ? telefono : "N/A"));
+            System.out.println("-------------------------");
+        }
     }
 
-        static class Mascota {
-            private String nombre;
-            private String especie;
-            private int edad;
-            private double peso;
-            private Dueño dueño;
+    // Metodos
 
-            // TODO: Constructor por defecto
-            // TODO: Constructor con parámetros
-            // TODO: Constructor de copia
-            // TODO: Getters y Setters
+    static class Mascota {
+        private String nombre;
+        private String especie;
+        private int edad;
+        private double peso;
+        private Dueño dueño;
+
+        // Constructor por defecto
+        public Mascota() {
+            this.nombre = "Sin nombre";
+            this.especie = "Desconocida";
+            this.edad = 0;
+            this.peso = 0.0;
+            this.dueño = null;
         }
 
-        static class Veterinario {
-            private String nombre;
-            private String numeroEmpleado;
-            private String especialidad;
-            private int añosExperiencia;
-
-            // TODO: Constructor por defecto
-            // TODO: Constructor con parámetros
-            // TODO: Constructor de copia
-            // TODO: Getters y Setters
+        // Constructor con parámetros
+        public Mascota(String nombre, String especie, int edad, double peso, Dueño dueño) {
+            this.nombre = nombre;
+            this.especie = especie;
+            this.edad = edad;
+            this.peso = peso;
+            this.dueño = dueño;
         }
 
-        static class Servicio {
-            private String nombre;
-            private double precio;
-            private int duracionMinutos;
-
-            // TODO: Constructor por defecto
-            // TODO: Constructor con parámetros
-            // TODO: Constructor de copia
-            // TODO: Getters y Setters
+        // Constructor de copia
+        public Mascota(Mascota m) {
+            this.nombre = m.nombre;
+            this.especie = m.especie;
+            this.edad = m.edad;
+            this.peso = m.peso;
+            this.dueño = m.dueño;
         }
 
-        static class Consulta {
-            private String fecha;
-            private Mascota mascota;
-            private Veterinario veterinario;
-            private Servicio servicio;
-            private double costoTotal;
-
-            // TODO: Constructor por defecto
-            // TODO: Constructor con parámetros (debe asignar mascota, vet, servicio y
-            // calcular costoTotal)
-            // TODO: Constructor de copia
-            // TODO: Getters y Setters
-            // TODO: Método mostrarConsulta()
+        // Getters
+        public String getNombre() {
+            return nombre;
         }
 
-        // =========================================================================
-        // ## Ejercicio 2: Sistema de Gimnasio
-        // =========================================================================
-        /*
-         * ### Enunciado del Problema
-         * Un gimnasio necesita un sistema para administrar sus instalaciones,
-         * entrenadores y miembros.
-         * Los requisitos son:
-         * 
-         * Miembros: Nombre, edad, membresía (básica, premium) y el plan de
-         * entrenamiento que siguen.
-         * Entrenadores: Nombre, especialidad y certificación. Un entrenador puede
-         * atender a varios miembros.
-         * Planes de Entrenamiento: Nombre del plan, objetivo y ejercicios asignados.
-         * Cada plan tiene exactamente 5 ejercicios.
-         * Ejercicios: Nombre, series, repeticiones y duración en minutos.
-         * 
-         * ### Instrucciones
-         * Completa el código base que se proporciona a continuación. Debes:
-         * - Completar los constructores faltantes
-         * - Implementar los getters y setters
-         * - Completar los métodos funcionales
-         * - Añadir validación en los setters
-         * - Crear el menú interactivo
-         */
-        public static void ejercicio2(Scanner scanner) {
-            System.out.println("\n--- EJERCICIO 2: SISTEMA GIMNASIO ---");
-            // Aquí se llama a la lógica del menú del gimnasio (MenuGimnasio.main similar)
-            // En este esqueleto, lo manejamos como una función.
-
-            int opcion;
-            do {
-                System.out.println("\n=== MENÚ GIMNASIO ===");
-                System.out.println("1. Crear miembro");
-                System.out.println("2. Crear ejercicio");
-                System.out.println("3. Crear plan de entrenamiento");
-                System.out.println("4. Crear entrenador");
-                System.out.println("5. Volver al menú principal");
-                System.out.print("Elige una opción: ");
-
-                opcion = scanner.nextInt();
-                scanner.nextLine(); // Limpiar buffer
-
-                switch (opcion) {
-                    case 1:
-                        // TODO: Crear y mostrar un miembro
-                        break;
-                    case 2:
-                        // TODO: Crear y mostrar un ejercicio
-                        break;
-                    case 3:
-                        // TODO: Crear un plan y agregar ejercicios
-                        break;
-                    case 4:
-                        // TODO: Crear un entrenador
-                        break;
-                    case 5:
-                        System.out.println("Regresando...");
-                        break;
-                    default:
-                        System.out.println("Opción inválida");
-                }
-            } while (opcion != 5);
+        public String getEspecie() {
+            return especie;
         }
 
-        // --- Clases para Ejercicio 2 (Esqueleto del MD) ---
+        public int getEdad() {
+            return edad;
+        }
 
-        /**
-         * Clase Ejercicio - Representa un ejercicio físico
-         */
-        static class Ejercicio {
-            private String nombre;
-            private int series;
-            private int repeticiones;
-            private int duracionMinutos;
+        public double getPeso() {
+            return peso;
+        }
 
-            // CONSTRUCTOR POR DEFECTO
-            public Ejercicio() {
-                // TODO: Inicializar atributos con valores por defecto
+        public Dueño getDueño() {
+            return dueño;
+        }
+
+        // Setters
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public void setEspecie(String especie) {
+            this.especie = especie;
+        }
+
+        public void setEdad(int edad) {
+            this.edad = edad;
+        }
+
+        public void setPeso(double peso) {
+            this.peso = peso;
+        }
+
+        public void setDueño(Dueño dueño) {
+            this.dueño = dueño;
+        }
+
+        // Método de visualización
+        public void mostrarInfo() {
+            System.out.println("--- Detalle de la Mascota ---");
+            System.out.println("Nombre:  " + nombre);
+            System.out.println("Especie: " + especie);
+            System.out.println("Edad:    " + edad + " años");
+            System.out.println("Peso:    " + peso + " kg");
+            System.out.println("Dueño:   " + (dueño != null ? dueño.getNombre() : "Sin asignar"));
+            System.out.println("-----------------------------");
+        }
+    }
+
+    static class Veterinario {
+        private String nombre;
+        private String numeroEmpleado;
+        private String especialidad;
+        private int añosExperiencia;
+
+        // Constructor por defecto
+        public Veterinario() {
+            this.nombre = "Sin nombre";
+            this.numeroEmpleado = "0000";
+            this.especialidad = "General";
+            this.añosExperiencia = 0;
+        }
+
+        // Constructor con parámetros
+        public Veterinario(String nombre, String numeroEmpleado, String especialidad, int añosExperiencia) {
+            this.nombre = nombre;
+            this.numeroEmpleado = numeroEmpleado;
+            this.especialidad = especialidad;
+            this.añosExperiencia = añosExperiencia;
+        }
+
+        // Constructor de copia
+        public Veterinario(Veterinario v) {
+            this.nombre = v.nombre;
+            this.numeroEmpleado = v.numeroEmpleado;
+            this.especialidad = v.especialidad;
+            this.añosExperiencia = v.añosExperiencia;
+        }
+
+        // Getters
+        public String getNombre() {
+            return nombre;
+        }
+
+        public String getNumeroEmpleado() {
+            return numeroEmpleado;
+        }
+
+        public String getEspecialidad() {
+            return especialidad;
+        }
+
+        public int getAñosExperiencia() {
+            return añosExperiencia;
+        }
+
+        // Setters
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public void setNumeroEmpleado(String numeroEmpleado) {
+            this.numeroEmpleado = numeroEmpleado;
+        }
+
+        public void setEspecialidad(String especialidad) {
+            this.especialidad = especialidad;
+        }
+
+        public void setAñosExperiencia(int añosExperiencia) {
+            this.añosExperiencia = añosExperiencia;
+        }
+
+        // Método de visualización
+        public void mostrarInfo() {
+            System.out.println("--- Detalle del Veterinario ---");
+            System.out.println("Nombre:       " + nombre);
+            System.out.println("Empleado No:  " + numeroEmpleado);
+            System.out.println("Especialidad: " + especialidad);
+            System.out.println("Experiencia:  " + añosExperiencia + " años");
+            System.out.println("-------------------------------");
+        }
+    }
+
+    static class Servicio {
+        private String nombre;
+        private double precio;
+        private int duracionMinutos;
+
+        // Constructor por defecto
+        public Servicio() {
+            this.nombre = "Sin servicio";
+            this.precio = 0.0;
+            this.duracionMinutos = 0;
+        }
+
+        // Constructor con parámetros
+        public Servicio(String nombre, double precio, int duracionMinutos) {
+            this.nombre = nombre;
+            this.precio = precio;
+            this.duracionMinutos = duracionMinutos;
+        }
+
+        // Constructor de copia
+        public Servicio(Servicio s) {
+            this.nombre = s.nombre;
+            this.precio = s.precio;
+            this.duracionMinutos = s.duracionMinutos;
+        }
+
+        // Getters
+        public String getNombre() {
+            return nombre;
+        }
+
+        public double getPrecio() {
+            return precio;
+        }
+
+        public int getDuracionMinutos() {
+            return duracionMinutos;
+        }
+
+        // Setters
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public void setPrecio(double precio) {
+            this.precio = precio;
+        }
+
+        public void setDuracionMinutos(int duracionMinutos) {
+            this.duracionMinutos = duracionMinutos;
+        }
+
+        // Método de visualización
+        public void mostrarInfo() {
+            System.out.println("--- Detalle del Servicio ---");
+            System.out.println("Servicio: " + nombre);
+            System.out.println("Precio:   $" + precio);
+            System.out.println("Duración: " + duracionMinutos + " min");
+            System.out.println("----------------------------");
+        }
+    }
+
+    static class Consulta {
+        private String fecha;
+        private Mascota mascota;
+        private Veterinario veterinario;
+        private Servicio servicio;
+        private double costoTotal;
+
+        // Constructor por defecto
+        public Consulta() {
+            this.fecha = "AAAA-DD-MM";
+            this.mascota = null;
+            this.veterinario = null;
+            this.servicio = null;
+            this.costoTotal = 0.0;
+        }
+
+        // Constructor con parámetros
+        public Consulta(String fecha, Mascota mascota, Veterinario veterinario, Servicio servicio) {
+            this.fecha = fecha;
+            this.mascota = mascota;
+            this.veterinario = veterinario;
+            this.servicio = servicio;
+            this.costoTotal = (servicio != null) ? servicio.getPrecio() : 0.0;
+        }
+
+        // Constructor de copia
+        public Consulta(Consulta c) {
+            this.fecha = c.fecha;
+            this.mascota = c.mascota;
+            this.veterinario = c.veterinario;
+            this.servicio = c.servicio;
+            this.costoTotal = c.costoTotal;
+        }
+
+        // Getters
+        public String getFecha() {
+            return fecha;
+        }
+
+        public Mascota getMascota() {
+            return mascota;
+        }
+
+        public Veterinario getVeterinario() {
+            return veterinario;
+        }
+
+        public Servicio getServicio() {
+            return servicio;
+        }
+
+        public double getCostoTotal() {
+            return costoTotal;
+        }
+
+        // Setters
+        public void setFecha(String fecha) {
+            this.fecha = fecha;
+        }
+
+        public void setMascota(Mascota mascota) {
+            this.mascota = mascota;
+        }
+
+        public void setVeterinario(Veterinario veterinario) {
+            this.veterinario = veterinario;
+        }
+
+        public void setServicio(Servicio servicio) {
+            this.servicio = servicio;
+            this.costoTotal = (servicio != null) ? servicio.getPrecio() : 0.0;
+        }
+
+        // Método de visualización
+        public void mostrarConsulta() {
+            System.out.println("--- DETALLE DE CONSULTA ---");
+            System.out.println("Fecha:       " + fecha);
+            System.out.println("Mascota:     " + (mascota != null ? mascota.getNombre() : "N/A"));
+            System.out.println("Veterinario: " + (veterinario != null ? veterinario.getNombre() : "N/A"));
+            System.out.println("Servicio:    " + (servicio != null ? servicio.getNombre() : "N/A"));
+            System.out.println("Costo Total: $" + costoTotal);
+            System.out.println("---------------------------");
+        }
+    }
+
+    // =========================================================================
+    // ## Ejercicio 2: Sistema de Gimnasio
+    // =========================================================================
+    /*
+     * ### Enunciado del Problema
+     * Un gimnasio necesita un sistema para administrar sus instalaciones,
+     * entrenadores y miembros.
+     * Los requisitos son:
+     * 
+     * Miembros: Nombre, edad, membresía (básica, premium) y el plan de
+     * entrenamiento que siguen.
+     * Entrenadores: Nombre, especialidad y certificación. Un entrenador puede
+     * atender a varios miembros.
+     * Planes de Entrenamiento: Nombre del plan, objetivo y ejercicios asignados.
+     * Cada plan tiene exactamente 5 ejercicios.
+     * Ejercicios: Nombre, series, repeticiones y duración en minutos.
+     * 
+     * ### Instrucciones
+     * Completa el código base que se proporciona a continuación. Debes:
+     * - Completar los constructores faltantes
+     * - Implementar los getters y setters
+     * - Completar los métodos funcionales
+     * - Añadir validación en los setters
+     * - Crear el menú interactivo
+     */
+    public static void ejercicio2(Scanner scanner) {
+        System.out.println("\n--- EJERCICIO 2: DEMOSTRACIÓN CRUD GIMNASIO ---");
+
+        // 1. CREATE (Creación de objetos)
+        System.out.println("\n[1. CREATE] Registrando nuevo miembro y ejercicios...");
+        Miembro miembro1 = new Miembro("Ana Gómez", 28, "básica");
+        Ejercicio ej1 = new Ejercicio("Sentadillas", 4, 12, 10);
+        Ejercicio ej2 = new Ejercicio("Press Militar", 3, 10, 8);
+
+        PlanEntrenamiento plan1 = new PlanEntrenamiento("Rutina Alpha", "Tonificación", miembro1);
+        plan1.agregarEjercicio(ej1);
+        plan1.agregarEjercicio(ej2);
+        miembro1.setPlan(plan1);
+
+        // 2. READ (Lectura inicial)
+        System.out.println("\n[2. READ] Datos del sistema de gimnasio:");
+        miembro1.mostrarInfo();
+        plan1.mostrarInfoPlan();
+        ej1.getDuracionMinutos();
+
+        // 3. UPDATE (Actualización)
+        System.out.println("\n[3. UPDATE] Modificando membresía y plan...");
+        System.out.println("- Subiendo a membresía PREMIUM...");
+        miembro1.setTipoMembresia("premium");
+
+        System.out.println("- Agregando un nuevo ejercicio al plan...");
+        Ejercicio ej3 = new Ejercicio("Plancha", 3, 1, 5); // 1 repetición de larga duración
+        plan1.agregarEjercicio(ej3);
+
+        System.out.println("- Corrigiendo nombre del plan...");
+        plan1.setNombrePlan("Rutina Alpha Pro");
+
+        System.out.println("\nVerificando cambios (READ post-update):");
+        miembro1.mostrarInfo();
+        plan1.mostrarInfoPlan();
+
+        // 4. DELETE (Eliminación)
+        System.out.println("\n[4. DELETE] Removiendo el plan del miembro...");
+        miembro1.setPlan(null);
+
+        System.out.println("\nEstado final del miembro:");
+        miembro1.mostrarInfo();
+        if (!miembro1.tienePlanActivo()) {
+            System.out.println("El miembro ya no cuenta con un plan de entrenamiento asociado.");
+        }
+
+        System.out.println("\n--- FIN DEMOSTRACIÓN EJERCICIO 2 ---");
+        System.out.println("Presione Enter para volver al menú principal...");
+        scanner.nextLine();
+    }
+
+    // --- Clases para Ejercicio 2 (Esqueleto del MD) ---
+
+    /**
+     * Clase Ejercicio - Representa un ejercicio físico
+     */
+    static class Ejercicio {
+        private String nombre;
+        private int series;
+        private int repeticiones;
+        private int duracionMinutos;
+
+        // CONSTRUCTOR POR DEFECTO
+        public Ejercicio() {
+            this.nombre = "Sin nombre";
+            this.series = 0;
+            this.repeticiones = 0;
+            this.duracionMinutos = 0;
+        }
+
+        // CONSTRUCTOR CON PARÁMETROS
+        public Ejercicio(String nombre, int series, int repeticiones, int duracionMinutos) {
+            this.nombre = nombre;
+            this.series = series;
+            this.repeticiones = repeticiones;
+            this.duracionMinutos = duracionMinutos;
+        }
+
+        // CONSTRUCTOR DE COPIA
+        public Ejercicio(Ejercicio otro) {
+            this.nombre = otro.nombre;
+            this.series = otro.series;
+            this.repeticiones = otro.repeticiones;
+            this.duracionMinutos = otro.duracionMinutos;
+        }
+
+        // GETTERS Y SETTERS
+        public String getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(String nombre) {
+            if (nombre == null || nombre.trim().isEmpty()) {
+                throw new IllegalArgumentException("El nombre no puede estar vacío");
             }
+            this.nombre = nombre;
+        }
 
-            // CONSTRUCTOR CON PARÁMETROS
-            public Ejercicio(String nombre, int series, int repeticiones, int duracionMinutos) {
-                // TODO: Asignar parámetros a atributos usando this
+        public int getSeries() {
+            return series;
+        }
+
+        public void setSeries(int series) {
+            if (series <= 0) {
+                throw new IllegalArgumentException("Las series deben ser mayor a 0");
             }
+            this.series = series;
+        }
 
-            // CONSTRUCTOR DE COPIA
-            public Ejercicio(Ejercicio otro) {
-                // TODO: Copiar los valores del objeto otro
+        public int getRepeticiones() {
+            return repeticiones;
+        }
+
+        public void setRepeticiones(int repeticiones) {
+            if (repeticiones <= 0) {
+                throw new IllegalArgumentException("Las repeticiones deben ser mayor a 0");
             }
+            this.repeticiones = repeticiones;
+        }
 
-            // GETTERS Y SETTERS (CON VALIDACIONES)
-            public String getNombre() {
-                return nombre;
+        public int getDuracionMinutos() {
+            return duracionMinutos;
+        }
+
+        public void setDuracionMinutos(int duracionMinutos) {
+            if (duracionMinutos <= 0) {
+                throw new IllegalArgumentException("La duración debe ser mayor a 0");
             }
+            this.duracionMinutos = duracionMinutos;
+        }
 
-            public void setNombre(String nombre) {
-                // TODO: Validación (no null, no vacío)
-            }
+        // MÉTODO FUNCIONAL: Calcula la duración total (cada repetición toma 1 min según
+        // pista)
+        public int getDuracionTotal() {
+            return series * repeticiones;
+        }
 
-            public int getSeries() {
-                return series;
-            }
+        public void mostrarInfo() {
+            System.out.println("--- Ejercicio: " + nombre + " ---");
+            System.out.println("Series: " + series + " | Reps: " + repeticiones);
+            System.out.println("Duración estimada: " + getDuracionTotal() + " min");
+            System.out.println("-------------------------");
+        }
+    }
 
-            public void setSeries(int series) {
-                // TODO: Validación (mayor a 0)
-            }
+    /**
+     * Clase PlanEntrenamiento - Representa un plan de entrenamiento
+     */
+    static class PlanEntrenamiento {
+        private String nombrePlan;
+        private String objetivo;
+        private List<Ejercicio> ejercicios; // Exactly 5 ejercicios
+        private Miembro miembro; // ASOCIACIÓN
 
-            public int getRepeticiones() {
-                return repeticiones;
-            }
+        public PlanEntrenamiento() {
+            this.nombrePlan = "Nuevo Plan";
+            this.objetivo = "General";
+            this.ejercicios = new ArrayList<>(5);
+        }
 
-            public void setRepeticiones(int repeticiones) {
-                // TODO: Validación (mayor a 0)
-            }
+        public PlanEntrenamiento(String nombrePlan, String objetivo, Miembro miembro) {
+            this.nombrePlan = nombrePlan;
+            this.objetivo = objetivo;
+            this.miembro = miembro;
+            this.ejercicios = new ArrayList<>(5);
+        }
 
-            public int getDuracionMinutos() {
-                return duracionMinutos;
-            }
-
-            public void setDuracionMinutos(int duracionMinutos) {
-                // TODO: Validación (mayor a 0)
-            }
-
-            // MÉTODO FUNCIONAL: Calcula la duración total (series * repeticiones o según
-            // lógica MD)
-            public int getDuracionTotal() {
-                // TODO: Calcular duración total
-                return 0;
-            }
-
-            public void mostrarInfo() {
-                // TODO: Imprimir información del ejercicio formateada
+        public PlanEntrenamiento(PlanEntrenamiento otro) {
+            this.nombrePlan = otro.nombrePlan;
+            this.objetivo = otro.objetivo;
+            this.miembro = otro.miembro;
+            this.ejercicios = new ArrayList<>();
+            for (Ejercicio e : otro.ejercicios) {
+                this.ejercicios.add(new Ejercicio(e)); // Deep copy
             }
         }
 
-        /**
-         * Clase PlanEntrenamiento - Representa un plan de entrenamiento
-         */
-        static class PlanEntrenamiento {
-            private String nombrePlan;
-            private String objetivo;
-            private List<Ejercicio> ejercicios; // Exactly 5 ejercicios
-            private Miembro miembro; // ASOCIACIÓN
-
-            public PlanEntrenamiento() {
-                // TODO: Inicializar
-            }
-
-            public PlanEntrenamiento(String nombrePlan, String objetivo, Miembro miembro) {
-                // TODO: Asignar
-            }
-
-            public PlanEntrenamiento(PlanEntrenamiento otro) {
-                // TODO: Copiar (Deep copy de ejercicios)
-            }
-
-            public void agregarEjercicio(Ejercicio e) {
-                // TODO: Agregar ejercicio a la lista si hay menos de 5
-            }
-
-            public int getDuracionTotalPlan() {
-                // TODO: Sumar duraciones
-                return 0;
-            }
-
-            // TODO: Getters y Setters
-
-            public void mostrarInfoPlan() {
-                // TODO: Mostrar info completa
+        public void agregarEjercicio(Ejercicio e) {
+            if (ejercicios.size() < 5) {
+                ejercicios.add(e);
+            } else {
+                System.out.println("Error: El plan ya tiene el máximo de 5 ejercicios.");
             }
         }
 
-        /**
-         * Clase Miembro - Representa un miembro del gimnasio
-         */
-        static class Miembro {
-            private String nombre;
-            private int edad;
-            private String tipoMembresia; // "básica" o "premium"
-            private PlanEntrenamiento plan;
-
-            public Miembro() {
-                // TODO: Inicializar
+        public int getDuracionTotalPlan() {
+            int total = 0;
+            for (Ejercicio e : ejercicios) {
+                total += e.getDuracionTotal();
             }
-
-            public Miembro(String nombre, int edad, String tipoMembresia) {
-                // TODO: Asignar
-            }
-
-            public Miembro(Miembro otro) {
-                // TODO: Copiar
-            }
-
-            // TODO: Getters y Setters (Con validaciones de edad y tipo)
-
-            public boolean tienePlanActivo() {
-                return plan != null;
-            }
-
-            public void mostrarInfo() {
-                // TODO: Mostrar info
-            }
+            return total;
         }
 
-        /**
-         * Clase Entrenador - Representa un entrenador del gimnasio
-         */
-        static class Entrenador {
-            private String nombre;
-            private String especialidad;
-            private String certificacion;
-
-            public Entrenador() {
-                // TODO: Inicializar
-            }
-
-            public Entrenador(String nombre, String especialidad, String certificacion) {
-                // TODO: Asignar
-            }
-
-            public Entrenador(Entrenador otro) {
-                // TODO: Copiar
-            }
-
-            // TODO: Getters y Setters
-
-            public void mostrarInfo() {
-                // TODO: Mostrar info
-            }
+        // Getters y Setters
+        public String getNombrePlan() {
+            return nombrePlan;
         }
+
+        public void setNombrePlan(String nombrePlan) {
+            this.nombrePlan = nombrePlan;
+        }
+
+        public String getObjetivo() {
+            return objetivo;
+        }
+
+        public void setObjetivo(String objetivo) {
+            this.objetivo = objetivo;
+        }
+
+        public List<Ejercicio> getEjercicios() {
+            return ejercicios;
+        }
+
+        public Miembro getMiembro() {
+            return miembro;
+        }
+
+        public void setMiembro(Miembro miembro) {
+            this.miembro = miembro;
+        }
+
+        public void mostrarInfoPlan() {
+            System.out.println("--- Plan: " + nombrePlan + " ---");
+            System.out.println("Objetivo: " + objetivo);
+            System.out.println("Duración total: " + getDuracionTotalPlan() + " min");
+            System.out.println("Ejercicios:");
+            for (int i = 0; i < ejercicios.size(); i++) {
+                System.out.print((i + 1) + ". ");
+                ejercicios.get(i).mostrarInfo();
+            }
+            System.out.println("--------------------------------");
+        }
+    }
+
+    /**
+     * Clase Miembro - Representa un miembro del gimnasio
+     */
+    static class Miembro {
+        private String nombre;
+        private int edad;
+        private String tipoMembresia; // "básica" o "premium"
+        private PlanEntrenamiento plan;
+
+        public Miembro() {
+            this.nombre = "Sin nombre";
+            this.edad = 0;
+            this.tipoMembresia = "básica";
+        }
+
+        public Miembro(String nombre, int edad, String tipoMembresia) {
+            this.nombre = nombre;
+            this.edad = edad;
+            this.tipoMembresia = tipoMembresia;
+        }
+
+        public Miembro(Miembro otro) {
+            this.nombre = otro.nombre;
+            this.edad = otro.edad;
+            this.tipoMembresia = otro.tipoMembresia;
+            this.plan = otro.plan;
+        }
+
+        // Getters y Setters
+        public String getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public int getEdad() {
+            return edad;
+        }
+
+        public void setEdad(int edad) {
+            if (edad < 0 || edad > 120) {
+                throw new IllegalArgumentException("Edad no válida");
+            }
+            this.edad = edad;
+        }
+
+        public String getTipoMembresia() {
+            return tipoMembresia;
+        }
+
+        public void setTipoMembresia(String tipoMembresia) {
+            if (!tipoMembresia.equals("básica") && !tipoMembresia.equals("premium")) {
+                throw new IllegalArgumentException("Tipo de membresía inválido");
+            }
+            this.tipoMembresia = tipoMembresia;
+        }
+
+        public PlanEntrenamiento getPlan() {
+            return plan;
+        }
+
+        public void setPlan(PlanEntrenamiento plan) {
+            this.plan = plan;
+        }
+
+        public boolean tienePlanActivo() {
+            return plan != null;
+        }
+
+        public void mostrarInfo() {
+            System.out.println("--- Ficha de Miembro ---");
+            System.out.println("Nombre:    " + nombre);
+            System.out.println("Edad:      " + edad);
+            System.out.println("Membresía: " + tipoMembresia);
+            System.out.println("Plan:      " + (plan != null ? plan.getNombrePlan() : "Sin asignar"));
+            System.out.println("------------------------");
+        }
+    }
+
+    /**
+     * Clase Entrenador - Representa un entrenador del gimnasio
+     */
+    static class Entrenador {
+        private String nombre;
+        private String especialidad;
+        private String certificacion;
+
+        public Entrenador() {
+            this.nombre = "Sin nombre";
+            this.especialidad = "General";
+            this.certificacion = "Ninguna";
+        }
+
+        public Entrenador(String nombre, String especialidad, String certificacion) {
+            this.nombre = nombre;
+            this.especialidad = especialidad;
+            this.certificacion = certificacion;
+        }
+
+        public Entrenador(Entrenador otro) {
+            this.nombre = otro.nombre;
+            this.especialidad = otro.especialidad;
+            this.certificacion = otro.certificacion;
+        }
+
+        // Getters y Setters
+        public String getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public String getEspecialidad() {
+            return especialidad;
+        }
+
+        public void setEspecialidad(String especialidad) {
+            this.especialidad = especialidad;
+        }
+
+        public String getCertificacion() {
+            return certificacion;
+        }
+
+        public void setCertificacion(String certificacion) {
+            this.certificacion = certificacion;
+        }
+
+        public void mostrarInfo() {
+            System.out.println("--- Ficha de Entrenador ---");
+            System.out.println("Nombre:        " + nombre);
+            System.out.println("Especialidad:  " + especialidad);
+            System.out.println("Certificación: " + certificacion);
+            System.out.println("---------------------------");
+        }
+    }
 }
